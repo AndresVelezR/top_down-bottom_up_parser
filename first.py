@@ -73,3 +73,16 @@ def calculate_first(S):
                 print(f"e esta en partes de {S}, se añade al first")
                 print(f"el first va asi => {first}")
     return first    
+
+def check_leftrecursion(S):
+    parts = parts_of(S)
+    for x in parts:
+        if x[0] in V:
+            if x[0] == S:
+                recursive = True
+                return recursive
+            else:
+                a = check_leftrecursion(x)
+                if a:
+                    return a
+    return False
