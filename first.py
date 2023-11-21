@@ -1,26 +1,31 @@
 #rules = ["S-aSb", "A-a", "A-c", "A-e", "A-b"]
-"""
-rules = ["S-Bb", "S-Cd", "B-aB", "B-e", "C-cC", "C-e"]
-E = ["a", "b", "c", "d"]
-V = ["S", "A", "B", "C"]
 
-"""
-"""
-rules = ["S-A", "A-Bb", "A-Cd", "B-aB", "B-e", "C-cC", "C-e"]
-E = ["a", "b", "c", "d"]
-V = ["S", "A", "B", "C"]
-"""
+# rules = ["S-Bb", "S-Cd", "B-aB", "B-e", "C-cC", "C-e"]
+# E = ["a", "b", "c", "d"]
+# V = ["S", "A", "B", "C"]
 
-"""
-rules = ["S-AaAb", "S-BbBa", "A-e", "B-e"]
-E = ["a", "b"]
-V = ["S", "A", "B"]
-"""
-rules = ["S-(S)", "S-e"]
-E = ["(", ")"]
-V = ["S"]
+# rules = ["S-A", "A-Bb", "A-Cd", "B-aB", "B-e", "C-cC", "C-e"]
+# E = ["a", "b", "c", "d"]
+# V = ["S", "A", "B", "C"]
+
+# rules = ["S-AaAb", "S-BbBa", "A-e", "B-e"]
+# E = ["a", "b"]
+# V = ["S", "A", "B"]
+
+# rules = ["S-ABCDE", "A-a", "A-e", "B-b", "B-e", "C-c", "D-d", "D-e", "E-x", "E-e"]
+# E = ["d", "c", "b", "a", "x"]
+# V = ["A", "B", "C", "D", "E", "S"]
+
+# rules = ["P-xQRS", "Q-yz", "Q-z", "R-w", "R-e", "S-y"]
+# E = ["x", "y", "z", "w"]
+# V = ["P", "Q", "R"," S"]
+
+rules = ["S-aBDh", "B-cC", "C-bC", "C-e", "D-EF", "E-g", "E-e", "F-f", "F-e"]
+E = ["a", "h", "c", "b", "g", "f"]
+V = ["S", "B", "C", "D", "E", "F"]
 
 
+inicial_symbol = "S"
 
 #Lado derecho de una produccion
 def parts_of(N):
@@ -34,6 +39,9 @@ def calculate_first(S):
     first = []
     parts = parts_of(S)
     print(f"SE ESCOGEN LAS PARTES DE {S} => {parts}")
+
+    if S in E:
+        return S
     for i in range(0, len(parts)):
         for j in range(0, len(parts[i])):
             x = parts[i][j]
@@ -64,49 +72,4 @@ def calculate_first(S):
                 first.append("e")
                 print(f"e esta en partes de {S}, se añade al first")
                 print(f"el first va asi => {first}")
-    return first
-
-FIRST = calculate_first("S")
-print(FIRST)
-
-
-
-def calculate_follow(A):
-    follow = []
-    if A == "S":
-        follow.append("$")
-    for i in range(len(V)):
-        parts = parts_of(V[i])
-        for j in range(len(parts)):
-            for k in range(len(parts[j])):
-                x = parts[j][k]
-                if x == A:
-                    if k == (len(parts[j])-1):
-                        follow.append(calculate_follow(V[i]))
-                    if k <= (len(parts[j])-2):
-                        next = parts[j][k+1]
-                        print(f"se le va a calcular el first_next a {next}")
-                        if next in V:
-                            first_next = calculate_first(next)
-                        if next in E:
-                            first_next = next
-                        print(f"el first del next es => {first_next}")
-                        if "e" in first_next:
-                            print(f"epaleee")
-                            for elemento in first_next:
-                                if elemento != "e":
-                                    follow.append(elemento)
-                        else:
-                            print(f"epalongooo")
-                            follow.append(first_next)
-                #break
-    return follow                
-                    
-    
-
-FOLLOW = calculate_follow("S")
-print(FOLLOW)
-
-
-
-    
+    return first    
