@@ -125,6 +125,8 @@ def calculate_first(S):
 
     return first    
 
+print(calculate_first("aSb"))
+
 def calculate_follow(A):
     follow = []
     count = 0
